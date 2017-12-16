@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
 
     'inquire.profiles',
+    'inquire.questions',
 ]
 
 MIDDLEWARE = [
@@ -168,3 +169,17 @@ LOGGING = {
         },
     }
 }
+
+
+STATIC_ROOT = 'staticfiles'
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
+TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
+
+#MEDIA
+MEDIA_ROOT = os.path.join(BASE_DIR, 'public', 'media')
+MEDIA_URL = '/public/media/'
