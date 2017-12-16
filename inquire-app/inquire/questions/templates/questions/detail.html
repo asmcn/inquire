@@ -1,11 +1,10 @@
 
 {% extends "base.html" %}
-{% load smarturlize %}
 
 {% block content %}
-    <h3>Question title: {{ question.question_title | smarturlize }}</h3>
+    <h3>Question title: {{ question.question_title }}</h3>
 
-<h2>Question content:<br>{{ question.question_text | smarturlize }}</h2>
+<h2>Question content:<br>{{ question.question_text }}</h2>
     <h5>
         <a href="{% url 'questions:edit_question_page' question.id %}"> view/modify question</a>
     </h5>
@@ -43,7 +42,7 @@
 <form action="{% url 'questions:vote' question.id %}" method="post">
 {% csrf_token %}
 {% for answer in answers %}
-    <h2>Answer{{ forloop.counter }}:<br>{{ answer.answer_text | smarturlize}}</h2>
+    <h2>Answer{{ forloop.counter }}:<br>{{ answer.answer_text}}</h2>
     <h5>
         <a href="{% url 'questions:edit_answer_page' question.id answer.id%}"> view/modify answer</a>
     </h5>

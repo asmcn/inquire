@@ -27,7 +27,7 @@ def tag_handler(request, tag_id):
 
     context = {
         'latest_question_list': latest_question_list,
-        'username': request.user.username,
+        'username': request.user.first_name,
         'tag': tag.tag
     }
     return render(request, 'questions/index.html', context)
@@ -51,12 +51,12 @@ def index(request):
 
 def detail(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
-    answers = question.answers_set.order_by('-net_votes')
+    answers = Answer.objects.filter(question_id=question_id)
 
     return render(request, 'questions/detail.html', {
         'question': question,
         'answers': answers,
-        'username': request.user.username,
+        'username': request.user.first_name,
         'taglist': question.tags.all
     }, )
 
@@ -151,7 +151,7 @@ def add_question(request):
 @login_required
 def goto_answer_page(request, question_id):
     p = get_object_or_404(Question, pk=question_id)
-    context = {'question': p, 'username': request.user.username}
+    context = {'question': p, 'username': request.user.first_name}
     return render(request, 'questions/answer.html', context)
 
 
