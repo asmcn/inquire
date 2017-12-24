@@ -34,6 +34,7 @@ def tag_handler(request, tag_id):
 
 
 def index(request):
+    print('>>>>>>>>>>>>>>>>', request.user)
     question_list = Question.objects.order_by('-pub_date')
     paginator = Paginator(question_list, 10)
     page = request.GET.get('page')
@@ -45,7 +46,8 @@ def index(request):
     except EmptyPage:
         latest_question_list = paginator.page(paginator.num_pages)
 
-    context = {'latest_question_list': latest_question_list, 'username': request.user.first_name}
+    context = {'latest_question_list': latest_question_list}
+
     return render(request, 'questions/index.html', context)
 
 
