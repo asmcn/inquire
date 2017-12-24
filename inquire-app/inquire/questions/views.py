@@ -63,7 +63,7 @@ def detail(request, question_id):
 
 def results(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
-    answers = question.answers_set.order_by('-net_votes')
+    answers = Answer.objects.filter(question_id=question_id)
     return render(request, 'questions/results.html', {'question': question, 'answers': answers})
 
 
@@ -91,7 +91,7 @@ def vote(request, question_id):
 
     p = get_object_or_404(Question, pk=question_id)
     try:
-        selected_choice = p.answers_set.get(pk=request.POST['answer'])
+        selected_choice = Answer.objects.get(pk=request.POST['answer'])
     except (KeyError, Answer.DoesNotExist):
         return render(request, 'questions/detail.html', {
             'question': p,
@@ -162,7 +162,7 @@ def add_answer(request, question_id):
         new_answer = Answer(answer_text=new_answer_text, pub_date=timezone.now(), author=request.user, question=p,
                              modification_time=timezone.now())
         new_answer.save()
-        p.number_of_answers = len(p.answers_set.all())
+        p.number_of_answers = len(Answer.objects.filter(question_id=question_id).all())
         p.save()
         return HttpResponseRedirect(reverse('questions:detail', args=(question_id,)))
     elif 'Cancel' in request.POST:
@@ -225,7 +225,7 @@ def edit_answer(request, question_id, answer_id):
 
 def rss(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
-    answers = question.answers_set.order_by('-net_votes')
+    answers = Answer.objects.filter(question_id=question_id)
 
     feed = feedgenerator.Rss201rev2Feed(
         title="Output question rss",
