@@ -13,17 +13,17 @@ class Tag(models.Model):
 
 
 class Question(models.Model):
-    question_title = models.CharField(max_length=100) # Varchar
-    question_text = models.TextField() # text
+    question_title = models.CharField(max_length=100)
+    question_text = models.TextField()
     pub_date = models.DateTimeField('date published')
     modification_time = models.DateTimeField('date modified')
     author = models.ForeignKey(UserProfile, null=True)
     up_list = models.ManyToManyField(UserProfile, related_name="question_up_list")
     down_list = models.ManyToManyField(UserProfile, related_name="question_down_list")
-    up_votes = models.IntegerField(default=0) # 10
-    down_votes = models.IntegerField(default=0) # 4
-    number_of_answers = models.IntegerField(default=0) # 4
-    tags = models.ManyToManyField(Tag, null=True)
+    up_votes = models.IntegerField(default=0)
+    down_votes = models.IntegerField(default=0)
+    number_of_answers = models.IntegerField(default=0)
+    tags = models.ManyToManyField(Tag)
 
     object_type = "question"
 
@@ -41,7 +41,7 @@ class Answer(models.Model):
     net_votes = models.IntegerField(default=0)
     up_list = models.ManyToManyField(UserProfile, related_name="answer_up_list")
     down_list = models.ManyToManyField(UserProfile, related_name="answer_down_list")
-    author = models.ForeignKey(UserProfile, null=True)
+    author = models.ForeignKey(UserProfile)
 
     object_type = "answer"
 
